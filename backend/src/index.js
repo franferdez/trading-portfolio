@@ -1,88 +1,15 @@
 // @flow
 require("dotenv").config();
-const { ApolloServer } = require("apollo-server");
-const { importSchema } = require("graphql-import");
-const { Prisma } = require("prisma-binding");
-const path = require("path");
+import { ApolloServer } from "apollo-server";
+import { importSchema } from "graphql-import";
+import { Prisma } from "prisma-binding";
+import path from "path";
+import Query from "./resolvers/Query";
+import Mutation from "./resolvers/Mutation";
 
 const resolvers = {
-  Query: {
-    posts: (_, args, context, info) => {
-      return context.prisma.query.posts(
-        {
-          where: {
-            OR: [
-              { title_contains: args.searchString },
-              { content_contains: args.searchString }
-            ]
-          }
-        },
-        info
-      );
-    },
-    user: (_, args, context, info) => {
-      return context.prisma.query.user(
-        {
-          where: {
-            id: args.id
-          }
-        },
-        info
-      );
-    }
-  },
-  Mutation: {
-    createDraft: (_, args, context, info) => {
-      return context.prisma.mutation.createPost(
-        {
-          data: {
-            title: args.title,
-            content: args.content,
-            slug: args.slug,
-            author: {
-              connect: {
-                id: args.authorId
-              }
-            }
-          }
-        },
-        info
-      );
-    },
-    publish: (_, args, context, info) => {
-      return context.prisma.mutation.updatePost(
-        {
-          where: {
-            id: args.id
-          },
-          data: {
-            published: true
-          }
-        },
-        info
-      );
-    },
-    deletePost: (_, args, context, info) => {
-      return context.prisma.mutation.deletePost(
-        {
-          where: {
-            id: args.id
-          }
-        },
-        info
-      );
-    },
-    signup: (_, args, context, info) => {
-      return context.prisma.mutation.createUser(
-        {
-          data: {
-            name: args.name
-          }
-        },
-        info
-      );
-    }
-  }
+  Query,
+  Mutation
 };
 
 const typeDefs = importSchema(path.resolve("src/schema.graphql"));

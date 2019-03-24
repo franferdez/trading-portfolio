@@ -4,6 +4,7 @@
 type Query {
   posts(searchString: String): [Post!]!
   user(id: ID!): User
+  info: String!
 }
 
 type Mutation {

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "deploy": "prisma deploy --env-file .env",
-    "build": "babel --out-dir build/ --presets @babel/preset-flow src/",
+    "build": "babel --out-dir build/ --presets=@babel/preset-env --presets=@babel/preset-flow src/",
     "start": "concurrently \"npm run build -- --watch\" \"nodemon build/index.js\"",
     "flow": "flow"
   },
@@ -22,6 +22,7 @@
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
     "@babel/preset-flow": "^7.0.0",
     "concurrently": "^4.1.0",
     "flow-bin": "^0.95.1",
