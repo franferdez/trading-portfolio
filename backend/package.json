@@ -1,6 +1,6 @@
 {
-  "name": "prisma-apollo",
-  "version": "1.0.0",
+  "name": "tranding-portfolio-backend",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
