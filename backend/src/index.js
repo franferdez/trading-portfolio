@@ -1,8 +1,9 @@
-require('dotenv').config()
-const { ApolloServer } = require('apollo-server')
-const { importSchema } = require('graphql-import')
-const { Prisma } = require('prisma-binding')
-const path = require('path')
+// @flow
+require("dotenv").config();
+const { ApolloServer } = require("apollo-server");
+const { importSchema } = require("graphql-import");
+const { Prisma } = require("prisma-binding");
+const path = require("path");
 
 const resolvers = {
   Query: {
@@ -17,7 +18,7 @@ const resolvers = {
           }
         },
         info
-      )
+      );
     },
     user: (_, args, context, info) => {
       return context.prisma.query.user(
@@ -27,7 +28,7 @@ const resolvers = {
           }
         },
         info
-      )
+      );
     }
   },
   Mutation: {
@@ -46,7 +47,7 @@ const resolvers = {
           }
         },
         info
-      )
+      );
     },
     publish: (_, args, context, info) => {
       return context.prisma.mutation.updatePost(
@@ -59,7 +60,7 @@ const resolvers = {
           }
         },
         info
-      )
+      );
     },
     deletePost: (_, args, context, info) => {
       return context.prisma.mutation.deletePost(
@@ -69,7 +70,7 @@ const resolvers = {
           }
         },
         info
-      )
+      );
     },
     signup: (_, args, context, info) => {
       return context.prisma.mutation.createUser(
@@ -79,12 +80,12 @@ const resolvers = {
           }
         },
         info
-      )
+      );
     }
   }
-}
+};
 
-const typeDefs = importSchema(path.resolve('src/schema.graphql'))
+const typeDefs = importSchema(path.resolve("src/schema.graphql"));
 
 const server = new ApolloServer({
   typeDefs,
@@ -92,12 +93,12 @@ const server = new ApolloServer({
   context: req => ({
     ...req,
     prisma: new Prisma({
-      typeDefs: 'src/generated/prisma.graphql',
+      typeDefs: "src/generated/prisma.graphql",
       endpoint: process.env.PRISMA_URL
     })
   })
-})
+});
 
 server.listen({ port: process.env.PORT }).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`)
-})
+  console.log(`🚀  Server ready at ${url}`);
+});

@@ -10,7 +10,6 @@
     "apollo-link-http": "^1.5.14",
     "apollo-link-ws": "^1.0.17",
     "apollo-utilities": "^1.2.1",
-    "flow-bin": "^0.95.1",
     "react": "^16.8.5",
     "react-apollo": "^2.5.2",
     "react-dom": "^16.8.5",
@@ -33,5 +32,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "flow-bin": "^0.95.1"
+  }
 }

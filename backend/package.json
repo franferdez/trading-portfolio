@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "deploy": "prisma deploy --env-file .env",
-    "start": "nodemon src/index.js"
+    "build": "babel --out-dir build/ --presets @babel/preset-flow src/",
+    "start": "concurrently \"npm run build -- --watch\" \"nodemon build/index.js\"",
+    "flow": "flow"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +20,11 @@
     "prisma-binding": "^2.3.9"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/preset-flow": "^7.0.0",
+    "concurrently": "^4.1.0",
+    "flow-bin": "^0.95.1",
     "nodemon": "^1.18.10"
   }
 }
