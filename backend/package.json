@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "deploy": "prisma deploy --env-file .env",
-    "build": "babel --out-dir build/ --presets=@babel/preset-env --presets=@babel/preset-flow src/",
+    "build": "babel --out-dir build/ src/",
     "start": "concurrently \"npm run build -- --watch\" \"nodemon build/index.js\"",
     "flow": "flow"
   },
@@ -14,14 +14,18 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.4.8",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^7.0.0",
     "graphql": "^14.1.1",
     "graphql-import": "^0.7.1",
-    "prisma-binding": "^2.3.9"
+    "jsonwebtoken": "^8.5.1",
+    "prisma-binding": "^2.3.9",
+    "prisma-client-lib": "^1.29.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.4.0",
+    "@babel/polyfill": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-flow": "^7.0.0",
     "concurrently": "^4.1.0",
