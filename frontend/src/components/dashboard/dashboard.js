@@ -14,9 +14,13 @@ import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+
 import { mainListItems, secondaryListItems } from "./list-items";
 import SimpleLineChart from "./simple-line-chart";
 import SimpleTable from "./simple-table";
+
+import { Logout } from "../auth/auth";
 
 const drawerWidth = 240;
 
@@ -152,6 +156,13 @@ class Dashboard extends React.Component {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+            <Logout>
+              {({ logout }) => (
+                <IconButton color="inherit" onClick={logout}>
+                  <AccountCircleIcon />
+                </IconButton>
+              )}
+            </Logout>
           </Toolbar>
         </AppBar>
         <Drawer

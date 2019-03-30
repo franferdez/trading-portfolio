@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -12,6 +12,18 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
+
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
+import { AUTH_TOKEN } from "../../constants/config.js";
+
+const LOGIN_MUTATION = gql`
+  mutation LoginMutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+    }
+  }
+`;
 
 const styles = theme => ({
   main: {
@@ -48,6 +60,14 @@ const styles = theme => ({
 
 function SignIn(props) {
   const { classes } = props;
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const _confirm = async data => {
+    const { token } = data.login;
+    localStorage.setItem(AUTH_TOKEN, token);
+    props.history.push(`/`);
+  };
 
   return (
     <main className={classes.main}>
@@ -62,7 +82,13 @@ function SignIn(props) {
         <form className={classes.form}>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
+            <Input
+              id="email"
+              name="email"
+              onChange={e => setEmail(e.target.value)}
+              autoComplete="email"
+              autoFocus
+            />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
@@ -70,6 +96,7 @@ function SignIn(props) {
               name="password"
               type="password"
               id="password"
+              onChange={e => setPassword(e.target.value)}
               autoComplete="current-password"
             />
           </FormControl>
@@ -77,15 +104,25 @@ function SignIn(props) {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
+
+          <Mutation
+            mutation={LOGIN_MUTATION}
+            variables={{ email, password }}
+            onCompleted={data => _confirm(data)}
           >
-            Sign in
-          </Button>
+            {mutation => (
+              <Button
+                // type="submit"
+                onClick={mutation}
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign in
+              </Button>
+            )}
+          </Mutation>
         </form>
       </Paper>
     </main>
