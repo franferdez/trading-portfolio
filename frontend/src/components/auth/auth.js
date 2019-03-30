@@ -8,10 +8,6 @@ import {
 } from "react-router-dom";
 import { AUTH_TOKEN } from "../../constants/config.js";
 
-export const logout = () => {
-  // props.history.push(`/login`);
-};
-
 export const localStorageAuth = {
   isAuthenticated: !!localStorage.getItem(AUTH_TOKEN),
   authenticate(token) {
