@@ -1,35 +1,50 @@
 // @flow
 require("dotenv").config();
 import "@babel/polyfill";
-import { ApolloServer } from "apollo-server";
-import { importSchema } from "graphql-import";
+import express from "express";
+import { ApolloServer } from "apollo-server-express";
 // import { Prisma } from "prisma-binding";
-import path from "path";
-import Query from "./resolvers/Query";
-import Mutation from "./resolvers/Mutation";
-import { prisma } from "./generated/prisma-client/index.js";
 
-const resolvers = {
-  Query,
-  Mutation
-};
+import { prisma } from "./generated/prisma-client/index.js";
+import { schema } from "./schema";
+import { startupMessages, RESPONSE } from "./constants";
+import { SERVER } from "./config";
+import enableCors from "./cors";
+
+const app = express();
+
+app.get("/", (req, res) => {
+  res.writeHead(200, { Connection: "close" });
+  res.end(RESPONSE.MESSAGES.UP_RUNNING);
+  //res.end("OK");
+});
+
+// app.use(handleAuthentication);
+
 // In case you want to use schema delegation
 // new Prisma({
 //       typeDefs: "src/generated/prisma.graphql",
 //       endpoint: process.env.PRISMA_URL
 //     })
 
-const typeDefs = importSchema(path.resolve("src/schema.graphql"));
-
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
+  path: SERVER.GRAPHQL,
+  cors: enableCors(),
   context: req => ({
     ...req,
     prisma
   })
 });
 
-server.listen({ port: process.env.PORT }).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
+server.applyMiddleware({ app });
+
+const PORT = process.env.PORT;
+app.listen({ port: PORT }, () => {
+  startupMessages({ port: PORT });
+  // console.log(`🚀  Server ready`);
 });
+
+// server.listen({ port: process.env.PORT }).then(({ url }) => {
+//   console.log(`🚀  Server ready at ${url}`);
+// });

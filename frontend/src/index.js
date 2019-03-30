@@ -13,6 +13,7 @@ import { getMainDefinition } from "apollo-utilities";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/app/app";
+import { apolloClient } from "./apollo/";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000"
@@ -47,15 +48,15 @@ const authLink = setContext((_, { headers }) => {
 //   authLink.concat(httpLink)
 // );
 
-const client = new ApolloClient({
-  //link,
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
-});
+// const client = new ApolloClient({
+//   //link,
+//   link: authLink.concat(httpLink),
+//   cache: new InMemoryCache()
+// });
 
 ReactDOM.render(
   <BrowserRouter>
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <App />
     </ApolloProvider>
   </BrowserRouter>,

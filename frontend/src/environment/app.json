@@ -1,0 +1,25 @@
+{
+  "NAMESPACE": "connector",
+  "ENDPOINT": {
+    "PROTOCOL": "http",
+    "HOST": "localhost",
+    "PORT": 4000,
+    "GRAPHQL": "/graphql",
+    "GRAPHIQL": "/graphiql"
+  },
+  "CONSTANTS": {
+    "HTTP_ONLY": "HTTP_ONLY",
+    "LOCAL_STORAGE": "LOCAL_STORAGE",
+    "FORBIDDEN": "Forbidden",
+    "UNAUTHORIZED": "Unauthorized!",
+    "NOT_ALLOWED": "Not allowed"
+  },
+  "STRATEGIES": {
+    "HTTP_ONLY": true,
+    "LOCAL_STORAGE": true
+  },
+  "PREFIX": "x-",
+  "TOKEN_SUFFIX": "-token",
+  "REFRESH_TOKEN_SUFFIX": "-refresh-token",
+  "AUTH_HEADER_SUFFIX": "-auth-request-type"
+}
