@@ -15,7 +15,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import { AUTH_TOKEN } from "../../constants/config.js";
+import { localStorageAuth } from "../auth/auth";
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
@@ -65,7 +65,7 @@ function SignIn(props) {
 
   const _confirm = async data => {
     const { token } = data.login;
-    localStorage.setItem(AUTH_TOKEN, token);
+    localStorageAuth.authenticate(token);
     props.history.push(`/`);
   };
 
@@ -112,7 +112,6 @@ function SignIn(props) {
           >
             {mutation => (
               <Button
-                // type="submit"
                 onClick={mutation}
                 fullWidth
                 variant="contained"

@@ -8,18 +8,14 @@ import {
 } from "react-router-dom";
 import { AUTH_TOKEN } from "../../constants/config.js";
 
-const authToken = localStorage.getItem(AUTH_TOKEN);
-
 export const logout = () => {
-  localStorage.removeItem(AUTH_TOKEN);
   // props.history.push(`/login`);
 };
 
-const fakeAuth = {
-  isAuthenticated: !!authToken,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
+export const localStorageAuth = {
+  isAuthenticated: !!localStorage.getItem(AUTH_TOKEN),
+  authenticate(token) {
+    localStorage.setItem(AUTH_TOKEN, token);
   },
   signout(cb) {
     localStorage.removeItem(AUTH_TOKEN);
@@ -31,7 +27,7 @@ export function PrivateRoute({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={props =>
-        fakeAuth.isAuthenticated ? (
+        localStorageAuth.isAuthenticated ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -50,18 +46,10 @@ export const Logout = withRouter(
   ({ children: Component, history, ...props }) => (
     <Component
       logout={() => {
-        logout();
+        localStorageAuth.signout();
         history.push("/login");
       }}
       {...props}
     />
   )
 );
-
-export function Public() {
-  return <h3>Public</h3>;
-}
-
-export function Protected() {
-  return <h3>Protected</h3>;
-}
