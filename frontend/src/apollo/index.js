@@ -47,6 +47,8 @@ const httpLink = new HttpLink({
   ...opts
 });
 
+console.log("opts", opts);
+
 const authMiddlewareLink = setContext(() => {
   const headers = {
     headers: {

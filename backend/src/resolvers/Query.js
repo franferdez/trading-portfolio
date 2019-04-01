@@ -23,10 +23,17 @@ const user = (_, args, context, info) => {
   );
 };
 
-const info = () => `This is the API of a Hackernews Clone`;
+const otherQueries = {
+  test: () => "Server is up and running... working smoothly",
+  connection: () => "Connected",
+  _checkAuth: (_, args, context) =>
+    `Authorized | CurentUserId ${/* context.user.id */ "no-id"}!`,
+  testPermissionsHasRole: () => "ok role",
+  testPermissionsIsAllowed: () => "ok permission"
+};
 
 export default {
   posts,
   user,
-  info
+  ...otherQueries
 };

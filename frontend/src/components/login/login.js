@@ -19,9 +19,7 @@ import { localStorageAuth } from "../auth/auth";
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-    }
+    login(email: $email, password: $password)
   }
 `;
 
@@ -65,8 +63,8 @@ function SignIn(props) {
 
   const _confirm = async data => {
     const { token } = data.login;
-    localStorageAuth.authenticate(token);
-    props.history.push(`/`);
+    // localStorageAuth.authenticate(token);
+    // props.history.push(`/`);
   };
 
   return (

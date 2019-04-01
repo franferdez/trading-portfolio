@@ -16,7 +16,7 @@
   },
   "STRATEGIES": {
     "HTTP_ONLY": true,
-    "LOCAL_STORAGE": true
+    "LOCAL_STORAGE": false
   },
   "PREFIX": "x-",
   "TOKEN_SUFFIX": "-token",

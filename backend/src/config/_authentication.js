@@ -24,8 +24,8 @@ const BASE_AUTH = {
 const EXTENDED_AUTH = {
   ...BASE_AUTH,
   ENDPOINT: process.env.AUTH_ENDPOINT,
-  SECRET_TOKEN: process.env.AUTH_SECRET_TOKEN,
-  SECRET_REFRESH_TOKEN: process.env.AUTH_SECRET_REFRESH_TOKEN,
+  SECRET_TOKEN: process.env.AUTH_SECRET_TOKEN || "secret-1234", //TODO: Fix this
+  SECRET_REFRESH_TOKEN: process.env.AUTH_SECRET_REFRESH_TOKEN || "secret-1234",
   USERS_DB: {
     IS_API: false,
     IS_LOCAL: true

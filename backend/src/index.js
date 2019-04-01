@@ -10,7 +10,10 @@ import { schema } from "./schema";
 import { startupMessages, RESPONSE } from "./constants";
 import { SERVER } from "./config";
 import enableCors from "./cors";
-
+import { handleAuthentication } from "./authentication";
+import {
+  formatResponse /* formatError, formatParams */
+} from "./graphql/format-response";
 const app = express();
 
 app.get("/", (req, res) => {
@@ -19,7 +22,7 @@ app.get("/", (req, res) => {
   //res.end("OK");
 });
 
-// app.use(handleAuthentication);
+app.use(handleAuthentication);
 
 // In case you want to use schema delegation
 // new Prisma({
@@ -34,7 +37,10 @@ const server = new ApolloServer({
   context: req => ({
     ...req,
     prisma
-  })
+  }),
+  //formatError: err => formatError(err),
+  //formatParams: params => formatParams(params),
+  formatResponse: (response, query) => formatResponse({ response, query })
 });
 
 server.applyMiddleware({ app });

@@ -21,8 +21,7 @@ export const AUTH = {
 
 // You may change this one only to match your needs. This is how what authentication strategy
 // you want your client uses
-export const CLIENT_AUTH_REQUEST_TYPE = AUTH.STRATEGIES.CLIENT.LOCAL_STORAGE; // Or
-// AUTH.STRATEGIES.CLIENT.HTTP_ONLY
+export const CLIENT_AUTH_REQUEST_TYPE = AUTH.STRATEGIES.CLIENT.HTTP_ONLY;
 
 const TOKEN_NAME = `${PREFIX}${NAMESPACE}${TOKEN_SUFFIX}`;
 const REFRESH_TOKEN_NAME = `${PREFIX}${NAMESPACE}${REFRESH_TOKEN_SUFFIX}`;

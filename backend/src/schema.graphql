@@ -1,10 +1,18 @@
 # import Post from './generated/prisma.graphql'
 # import User from './generated/prisma.graphql'
 
+directive @hasRole(role: [String]) on QUERY | FIELD
+directive @isAllowed(scope: [String]) on QUERY | FIELD
+
 type Query {
   posts(searchString: String): [Post!]!
   user(id: ID!): User
   info: String!
+  test: String
+  connection: String!
+  _checkAuth: String # @${roles.is.admin}
+  testPermissionsHasRole: String # @${roles.is.admin}
+  testPermissionsIsAllowed: String # @${permissions.can.read.profile}
 }
 
 type Mutation {
@@ -17,7 +25,7 @@ type Mutation {
   publish(id: ID!): Post
   deletePost(id: ID!): Post
   signup(email: String!, password: String!, name: String!): AuthPayload
-  login(email: String!, password: String!): AuthPayload
+  login(email: String!, password: String!): String!
 }
 
 type User {

@@ -11,3 +11,4 @@
 - [Advanced GraphQL Directive Permissions with Prisma](https://medium.com/@lastmjs/advanced-graphql-directive-permissions-with-prisma-fdee6f846044)
 - [GraphQL Schema Design: Building Evolvable Schemas](https://blog.apollographql.com/graphql-schema-design-building-evolvable-schemas-1501f3c59ed5)
 - [GraphQL Remote Schema Stitching in a Multi-Service Architecture](https://medium.com/provablyfair/graphql-remote-schema-stitching-in-a-multi-service-architecture-ac329037f082)
+- [Modularizing your GraphQL schema code](https://blog.apollographql.com/modularizing-your-graphql-schema-code-d7f71d5ed5f2)
