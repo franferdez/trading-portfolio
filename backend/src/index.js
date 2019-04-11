@@ -1,13 +1,15 @@
 // @flow
 require("dotenv").config();
 import "@babel/polyfill";
-import { ApolloServer } from "apollo-server";
+import express from "express";
+import { ApolloServer } from "apollo-server-express";
 import { importSchema } from "graphql-import";
 // import { Prisma } from "prisma-binding";
 import path from "path";
 import Query from "./resolvers/Query";
 import Mutation from "./resolvers/Mutation";
 import { prisma } from "./generated/prisma-client/index.js";
+import authMiddleware from "./auth/auth-middleware";
 
 const resolvers = {
   Query,
@@ -24,12 +26,19 @@ const typeDefs = importSchema(path.resolve("src/schema.graphql"));
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: req => ({
-    ...req,
-    prisma
-  })
+  context: req => {
+    return {
+      ...req,
+      prisma
+    };
+  }
 });
 
-server.listen({ port: process.env.PORT }).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+const app = express();
+server.applyMiddleware({ app });
+
+app.use("/graphql", authMiddleware);
+
+app.listen({ port: 4000 }, () =>
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+);
