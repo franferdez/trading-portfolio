@@ -1,5 +1,9 @@
 # Trading portfolio
 
+
+## Useful links
+- [Mono repo lerna and yarn](https://medium.com/naresh-bhatia/sharing-ui-components-with-lerna-and-yarn-workspaces-be1ebca06efe)
+
 ### Client useful links
 
 - [How to update the Apollo Client’s cache after a mutation](https://medium.freecodecamp.org/how-to-update-the-apollo-clients-cache-after-a-mutation-79a0df79b840)
