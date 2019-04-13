@@ -8,6 +8,7 @@ import path from "path";
 import Query from "./resolvers/Query";
 import Mutation from "./resolvers/Mutation";
 import { prisma } from "./generated/prisma-client/index.js";
+import "./accounts/server";
 
 const resolvers = {
   Query,

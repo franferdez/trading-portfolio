@@ -13,6 +13,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@accounts/boost": "^0.14.0",
+    "@accounts/password": "^0.14.0",
+    "@graphql-modules/core": "^0.7.0",
     "apollo-server": "^2.4.8",
     "bcryptjs": "^2.4.3",
     "dotenv": "^7.0.0",
