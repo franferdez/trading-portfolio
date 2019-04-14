@@ -976,4 +976,9 @@ export const models: Model[] = [
  * Type Defs
  */
 
-export const prisma: Prisma;
+export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
+  typeDefs,
+  models,
+  endpoint: `http://localhost:4467/Postgres/dev`
+});
+export const prisma = new Prisma();

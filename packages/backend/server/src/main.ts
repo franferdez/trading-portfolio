@@ -4,10 +4,10 @@ import { ApolloServer } from "apollo-server";
 import { importSchema } from "graphql-import";
 // import { Prisma } from "prisma-binding";
 
-import { prisma } from "./generated/prisma-client/index.js";
+import { prisma } from "./lib/prisma/prisma-client/";
 import * as path from "path";
 
-import { MainModule } from "./modules/main/main.module";
+import { MainModule } from "./modules/main.module";
 
 const { schema, context, resolvers } = MainModule;
 
@@ -19,10 +19,15 @@ const { schema, context, resolvers } = MainModule;
 
 // const typeDefs = importSchema(path.resolve("src/schema.graphql"));
 
+// interface Ctx {
+//   req: Request;
+//   res: Response;
+// }
+
 const server = new ApolloServer({
   schema,
-  context,
-  introspection: true
+  introspection: true,
+  context: ctx => context({ ...ctx, prisma })
   // context: req => ({
   //   ...context,
   //   ...req,

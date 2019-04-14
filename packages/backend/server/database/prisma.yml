@@ -7,9 +7,14 @@ datamodel: datamodel.graphql
 # secret: ${env:PRISMA_MANAGEMENT_API_SECRET}
 
 # Specifies the language and directory for the generated Prisma client.
+# generate:
+#   - generator: javascript-client
+#     output: ../src/generated/prisma-client
 generate:
-  - generator: javascript-client
-    output: ../src/generated/prisma-client
+  - generator: typescript-client
+    output: ../src/lib/prisma/prisma-client
+  - generator: graphql-schema
+    output: ../src/lib/prisma/
 
 # Ensures Prisma client is re-generated after a datamodel change.
 hooks:
@@ -17,4 +22,4 @@ hooks:
     - graphql get-schema -p prisma
     - prisma generate
 
-endpoint: http://localhost:4467/Postgres/dev 
+endpoint: http://localhost:4467/Postgres/dev

@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "deploy": "prisma deploy --env-file .env",
-    "dev": "nodemon --exec ts-node src/main.ts",
-    "debug": "nodemon --exec ts-node --inspect --debug-brk src/index.ts",
+    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/main.ts",
+    "debug": "nodemon --exec ts-node -r tsconfig-paths/register --inspect --debug-brk src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "generate-types": "gql-gen"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,10 @@
     "@types/graphql": "^14.2.0",
     "concurrently": "^4.1.0",
     "flow-bin": "^0.95.1",
+    "graphql-code-generator": "^0.18.0",
+    "graphql-codegen-typescript-common": "^0.18.0",
+    "graphql-codegen-typescript-resolvers": "^0.18.0",
+    "graphql-codegen-typescript-server": "^0.18.0",
     "nodemon": "^1.18.10",
     "ts-node": "^8.0.3",
     "typescript": "^3.4.3"
