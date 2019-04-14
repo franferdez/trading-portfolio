@@ -1,41 +1,33 @@
-// @flow
 require("dotenv").config();
-import "@babel/polyfill";
+import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { importSchema } from "graphql-import";
 // import { Prisma } from "prisma-binding";
 
-import path from "path";
-import Query from "./resolvers/Query";
-import Mutation from "./resolvers/Mutation";
 import { prisma } from "./generated/prisma-client/index.js";
+import * as path from "path";
 
-import { GraphQLModule } from "@graphql-modules/core";
+import { MainModule } from "./modules/main/main.module";
 
-const AppModule = new GraphQLModule({
-  /*...*/
-});
+const { schema, context, resolvers } = MainModule;
 
-const resolvers = {
-  Query,
-  Mutation
-};
 // In case you want to use schema delegation
 // new Prisma({
 //       typeDefs: "src/generated/prisma.graphql",
 //       endpoint: process.env.PRISMA_URL
 //     })
 
-const typeDefs = importSchema(path.resolve("src/schema.graphql"));
+// const typeDefs = importSchema(path.resolve("src/schema.graphql"));
 
 const server = new ApolloServer({
-  //schema: AppModule.schema,
-  typeDefs,
-  resolvers,
-  context: req => ({
-    ...req,
-    prisma
-  })
+  schema,
+  context,
+  introspection: true
+  // context: req => ({
+  //   ...context,
+  //   ...req,
+  //   prisma
+  // })
 });
 
 server.listen({ port: process.env.PORT }).then(({ url }) => {

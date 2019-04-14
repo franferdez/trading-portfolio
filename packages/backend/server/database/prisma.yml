@@ -1,0 +1,20 @@
+# Specifies the HTTP endpoint of your Prisma API.
+# endpoint: ${env:PRISMA_URL}
+
+# Defines your models, each model is mapped to the database as a table.
+datamodel: datamodel.graphql
+
+# secret: ${env:PRISMA_MANAGEMENT_API_SECRET}
+
+# Specifies the language and directory for the generated Prisma client.
+generate:
+  - generator: javascript-client
+    output: ../src/generated/prisma-client
+
+# Ensures Prisma client is re-generated after a datamodel change.
+hooks:
+  post-deploy:
+    - graphql get-schema -p prisma
+    - prisma generate
+
+endpoint: http://localhost:4467/Postgres/dev 

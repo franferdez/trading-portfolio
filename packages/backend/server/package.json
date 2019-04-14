@@ -1,13 +1,14 @@
 {
-  "name": "tranding-portfolio-backend",
+  "name": "tranding-portfolio-server",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "deploy": "prisma deploy --env-file .env",
-    "build": "babel --out-dir build/ src/",
-    "start": "concurrently \"npm run build -- --watch\" \"nodemon build/index.js\"",
-    "flow": "flow"
+    "dev": "nodemon --exec ts-node src/main.ts",
+    "debug": "nodemon --exec ts-node --inspect --debug-brk src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -19,16 +20,14 @@
     "dotenv": "^7.0.0",
     "graphql": "^14.1.1",
     "graphql-import": "^0.7.1",
+    "graphql-import-node": "^0.0.1",
     "jsonwebtoken": "^8.5.1",
     "prisma-binding": "^2.3.9",
-    "prisma-client-lib": "^1.29.2"
+    "prisma-client-lib": "^1.29.2",
+    "reflect-metadata": "^0.1.13",
+    "tsconfig-paths": "^3.8.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.4.0",
-    "@babel/polyfill": "^7.4.0",
-    "@babel/preset-env": "^7.4.2",
-    "@babel/preset-flow": "^7.0.0",
     "@types/graphql": "^14.2.0",
     "concurrently": "^4.1.0",
     "flow-bin": "^0.95.1",

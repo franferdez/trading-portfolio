@@ -10,5 +10,12 @@
   ],
   "devDependencies": {
     "lerna": "^3.13.2"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "pretest": "eslint packages",
+    "test": "jest",
+    "front:start": "yarn --cwd 'packages/frontend/app' start",
+    "back:start": "yarn --cwd 'packages/backend/app' start"
   }
 }
