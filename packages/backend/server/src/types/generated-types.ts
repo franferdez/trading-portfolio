@@ -1,210 +1,163 @@
-export type Maybe<T> = T | null;
+type Maybe<T> = T | null;
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
+};
 
-export interface CreateUserInput {
-  firstName: string;
+export type CreateUserInput = {
+  name: Scalars["String"];
+  email: Scalars["String"];
+  password: Scalars["String"];
+};
 
-  lastName: string;
-}
-
-// ====================================================
-// Types
-// ====================================================
-
-export interface Query {
-  info: string;
-
-  user: User;
-}
-
-export interface User {
-  id: string;
-
-  firstName: string;
-
-  lastName: string;
-
-  fullName: string;
-}
-
-export interface Mutation {
+export type Mutation = {
   createUser: User;
-}
+};
 
-// ====================================================
-// Arguments
-// ====================================================
-
-export interface UserQueryArgs {
-  id: string;
-}
-export interface CreateUserMutationArgs {
+export type MutationCreateUserArgs = {
   input: CreateUserInput;
-}
+};
+
+export type Query = {
+  info: Scalars["String"];
+  user: User;
+};
+
+export type QueryUserArgs = {
+  id: Scalars["String"];
+};
+
+export type User = {
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  email: Scalars["String"];
+  password: Scalars["String"];
+};
 
 import { GraphQLResolveInfo } from "graphql";
 
-import { ModuleContext } from "@graphql-modules/core";
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export type Resolver<Result, Parent = {}, TContext = {}, Args = {}> = (
-  parent: Parent,
-  args: Args,
+export type ResolverFn<TResult, TParent, TContext, TArgs> = (
+  parent: TParent,
+  args: TArgs,
   context: TContext,
   info: GraphQLResolveInfo
-) => Promise<Result> | Result;
+) => Promise<TResult> | TResult;
 
-export interface ISubscriptionResolverObject<Result, Parent, TContext, Args> {
-  subscribe<R = Result, P = Parent>(
-    parent: P,
-    args: Args,
-    context: TContext,
-    info: GraphQLResolveInfo
-  ): AsyncIterator<R | Result> | Promise<AsyncIterator<R | Result>>;
-  resolve?<R = Result, P = Parent>(
-    parent: P,
-    args: Args,
-    context: TContext,
-    info: GraphQLResolveInfo
-  ): R | Result | Promise<R | Result>;
-}
+export type StitchingResolver<TResult, TParent, TContext, TArgs> = {
+  fragment: string;
+  resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
+};
 
-export type SubscriptionResolver<
-  Result,
-  Parent = {},
-  TContext = {},
-  Args = {}
-> =
-  | ((
-      ...args: any[]
-    ) => ISubscriptionResolverObject<Result, Parent, TContext, Args>)
-  | ISubscriptionResolverObject<Result, Parent, TContext, Args>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | StitchingResolver<TResult, TParent, TContext, TArgs>;
 
-export type TypeResolveFn<Types, Parent = {}, TContext = {}> = (
-  parent: Parent,
+export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
+  parent: TParent,
+  args: TArgs,
   context: TContext,
   info: GraphQLResolveInfo
-) => Maybe<Types>;
+) => AsyncIterator<TResult> | Promise<AsyncIterator<TResult>>;
 
-export type NextResolverFn<T> = () => Promise<T>;
-
-export type DirectiveResolverFn<TResult, TArgs = {}, TContext = {}> = (
-  next: NextResolverFn<TResult>,
-  source: any,
+export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
+  parent: TParent,
   args: TArgs,
   context: TContext,
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-export namespace QueryResolvers {
-  export interface Resolvers<TContext = ModuleContext, TypeParent = {}> {
-    info?: InfoResolver<string, TypeParent, TContext>;
-
-    user?: UserResolver<User, TypeParent, TContext>;
-  }
-
-  export type InfoResolver<
-    R = string,
-    Parent = {},
-    TContext = ModuleContext
-  > = Resolver<R, Parent, TContext>;
-  export type UserResolver<
-    R = User,
-    Parent = {},
-    TContext = ModuleContext
-  > = Resolver<R, Parent, TContext, UserArgs>;
-  export interface UserArgs {
-    id: string;
-  }
+export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
+  subscribe: SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs>;
+  resolve?: SubscriptionResolveFn<TResult, TParent, TContext, TArgs>;
 }
 
-export namespace UserResolvers {
-  export interface Resolvers<TContext = ModuleContext, TypeParent = User> {
-    id?: IdResolver<string, TypeParent, TContext>;
+export type SubscriptionResolver<
+  TResult,
+  TParent = {},
+  TContext = {},
+  TArgs = {}
+> =
+  | ((
+      ...args: any[]
+    ) => SubscriptionResolverObject<TResult, TParent, TContext, TArgs>)
+  | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-    firstName?: FirstNameResolver<string, TypeParent, TContext>;
+export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
+  parent: TParent,
+  context: TContext,
+  info: GraphQLResolveInfo
+) => Maybe<TTypes>;
 
-    lastName?: LastNameResolver<string, TypeParent, TContext>;
+export type NextResolverFn<T> = () => Promise<T>;
 
-    fullName?: FullNameResolver<string, TypeParent, TContext>;
-  }
+export type DirectiveResolverFn<
+  TResult = {},
+  TParent = {},
+  TContext = {},
+  TArgs = {}
+> = (
+  next: NextResolverFn<TResult>,
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo
+) => TResult | Promise<TResult>;
 
-  export type IdResolver<
-    R = string,
-    Parent = User,
-    TContext = ModuleContext
-  > = Resolver<R, Parent, TContext>;
-  export type FirstNameResolver<
-    R = string,
-    Parent = User,
-    TContext = ModuleContext
-  > = Resolver<R, Parent, TContext>;
-  export type LastNameResolver<
-    R = string,
-    Parent = User,
-    TContext = ModuleContext
-  > = Resolver<R, Parent, TContext>;
-  export type FullNameResolver<
-    R = string,
-    Parent = User,
-    TContext = ModuleContext
-  > = Resolver<R, Parent, TContext>;
-}
+/** Mapping between all available schema types and the resolvers types */
+export type ResolversTypes = {
+  Query: Query;
+  String: Scalars["String"];
+  User: User;
+  ID: Scalars["ID"];
+  Mutation: Mutation;
+  CreateUserInput: CreateUserInput;
+  Boolean: Scalars["Boolean"];
+};
 
-export namespace MutationResolvers {
-  export interface Resolvers<TContext = ModuleContext, TypeParent = {}> {
-    createUser?: CreateUserResolver<User, TypeParent, TContext>;
-  }
+export type MutationResolvers<
+  Context = any,
+  ParentType = ResolversTypes["Mutation"]
+> = {
+  createUser?: Resolver<
+    ResolversTypes["User"],
+    ParentType,
+    Context,
+    MutationCreateUserArgs
+  >;
+};
 
-  export type CreateUserResolver<
-    R = User,
-    Parent = {},
-    TContext = ModuleContext
-  > = Resolver<R, Parent, TContext, CreateUserArgs>;
-  export interface CreateUserArgs {
-    input: CreateUserInput;
-  }
-}
+export type QueryResolvers<
+  Context = any,
+  ParentType = ResolversTypes["Query"]
+> = {
+  info?: Resolver<ResolversTypes["String"], ParentType, Context>;
+  user?: Resolver<ResolversTypes["User"], ParentType, Context, QueryUserArgs>;
+};
 
-/** Directs the executor to skip this field or fragment when the `if` argument is true. */
-export type SkipDirectiveResolver<Result> = DirectiveResolverFn<
-  Result,
-  SkipDirectiveArgs,
-  ModuleContext
->;
-export interface SkipDirectiveArgs {
-  /** Skipped when true. */
-  if: boolean;
-}
+export type UserResolvers<
+  Context = any,
+  ParentType = ResolversTypes["User"]
+> = {
+  id?: Resolver<ResolversTypes["ID"], ParentType, Context>;
+  name?: Resolver<ResolversTypes["String"], ParentType, Context>;
+  email?: Resolver<ResolversTypes["String"], ParentType, Context>;
+  password?: Resolver<ResolversTypes["String"], ParentType, Context>;
+};
 
-/** Directs the executor to include this field or fragment only when the `if` argument is true. */
-export type IncludeDirectiveResolver<Result> = DirectiveResolverFn<
-  Result,
-  IncludeDirectiveArgs,
-  ModuleContext
->;
-export interface IncludeDirectiveArgs {
-  /** Included when true. */
-  if: boolean;
-}
+export type Resolvers<Context = any> = {
+  Mutation?: MutationResolvers<Context>;
+  Query?: QueryResolvers<Context>;
+  User?: UserResolvers<Context>;
+};
 
-/** Marks an element of a GraphQL schema as no longer supported. */
-export type DeprecatedDirectiveResolver<Result> = DirectiveResolverFn<
-  Result,
-  DeprecatedDirectiveArgs,
-  ModuleContext
->;
-export interface DeprecatedDirectiveArgs {
-  /** Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax (as specified by [CommonMark](https://commonmark.org/). */
-  reason?: string;
-}
-
-export type IResolvers<TContext = ModuleContext> = {
-  Query?: QueryResolvers.Resolvers<TContext>;
-  User?: UserResolvers.Resolvers<TContext>;
-  Mutation?: MutationResolvers.Resolvers<TContext>;
-} & { [typeName: string]: never };
-
-export type IDirectiveResolvers<Result> = {
-  skip?: SkipDirectiveResolver<Result>;
-  include?: IncludeDirectiveResolver<Result>;
-  deprecated?: DeprecatedDirectiveResolver<Result>;
-} & { [directiveName: string]: never };
+/**
+ * @deprecated
+ * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
+ */
+export type IResolvers<Context = any> = Resolvers<Context>;

@@ -14,10 +14,10 @@ require:
 generates:
   src/types/generated-types.ts:
     config:
-      contextType: "@graphql-modules/core#ModuleContext"
+    # contextType: "@graphql-modules/core#ModuleContext"
+    # contextType: ./context#MyContext
     plugins:
-      - typescript-common
-      - typescript-server
+      - typescript
       - typescript-resolvers
 
 # A flag to overwrite files in case they're already exist when generating code.
