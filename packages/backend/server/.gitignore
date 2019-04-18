@@ -3,3 +3,6 @@ node_modules/
 
 # production
 /build
+
+# personal test file
+/database/private_data/
