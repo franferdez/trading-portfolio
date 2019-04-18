@@ -1,0 +1,21 @@
+{
+  "name": "trading-portfolio",
+  "version": "1.0.0",
+  "description": "The best package you will ever find.",
+  "author": "Francisco L. Fernandez Novella (franferdez@gmail.com)",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/**"
+  ],
+  "devDependencies": {
+    "lerna": "^3.13.2"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "pretest": "eslint packages",
+    "test": "jest",
+    "front:start": "yarn --cwd 'packages/frontend/app' start",
+    "back:start": "yarn --cwd 'packages/backend/app' start"
+  }
+}

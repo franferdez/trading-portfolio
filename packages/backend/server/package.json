@@ -1,0 +1,51 @@
+{
+  "name": "tranding-portfolio-server",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "prisma deploy --env-file .env",
+    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/main.ts",
+    "debug": "nodemon --exec ts-node -r tsconfig-paths/register --inspect --debug-brk src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "generate-types": "gql-gen",
+    "lint": "eslint --fix src/",
+    "eslint-check": "eslint --print-config . | eslint-config-prettier-check"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@graphql-modules/core": "^0.7.0",
+    "apollo-server": "^2.4.8",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^7.0.0",
+    "graphql": "^14.1.1",
+    "graphql-import": "^0.7.1",
+    "graphql-import-node": "^0.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "prisma-binding": "^2.3.9",
+    "prisma-client-lib": "^1.29.2",
+    "reflect-metadata": "^0.1.13",
+    "tsconfig-paths": "^3.8.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.0.7",
+    "@graphql-codegen/typescript": "^1.0.7",
+    "@graphql-codegen/typescript-resolvers": "^1.0.7",
+    "@types/graphql": "^14.2.0",
+    "@typescript-eslint/eslint-plugin": "^1.6.0",
+    "@typescript-eslint/parser": "^1.6.0",
+    "concurrently": "^4.1.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "flow-bin": "^0.95.1",
+    "graphql": "^14.2.1",
+    "nodemon": "^1.18.10",
+    "prettier": "^1.17.0",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.4.3"
+  }
+}

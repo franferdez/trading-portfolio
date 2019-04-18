@@ -1,5 +1,14 @@
 # Trading portfolio
 
+Trading portfolio at the moment is an experimental framework to create a modular app to manage a portfolio of investments.
+
+## How to run
+`yarn`
+
+### Useful architecture links
+- [Mono repo with lerna and yarn](https://medium.com/naresh-bhatia/sharing-ui-components-with-lerna-and-yarn-workspaces-be1ebca06efe)
+- [GraphQl featured based modules](https://medium.com/the-guild/graphql-modules-feature-based-graphql-modules-at-scale-2d7b2b0da6da)
+
 ### Client useful links
 
 - [How to update the Apollo Client’s cache after a mutation](https://medium.freecodecamp.org/how-to-update-the-apollo-clients-cache-after-a-mutation-79a0df79b840)
