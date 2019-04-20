@@ -1,5 +1,4 @@
 import "reflect-metadata";
-
-import { MainModule } from "./main.module";
+import { MainModule } from '@modules/main.module';
 
 export default MainModule.typeDefs;

@@ -1,7 +1,13 @@
-# Prisma and Apollo basic 2.0 example
+# Prisma and Apollo server
+
+## Prerequisite
+
+- `yarn global add graphql-cli`
+- `yarn global add prisma`
 
 ## Insctructions
 
-- `npm install`
-- `npm run deploy`
-- `npm run start`
+- `yarn`
+- `yarn deploy`
+- `yarn generate-types`
+- `yarn dev`

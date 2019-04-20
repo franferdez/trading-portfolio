@@ -2,11 +2,11 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "module": "commonjs",
-    "target": "es6",
-    "lib": ["es6", "esnext", "es2015"],
+    "target": "es2017",
+    "lib": ["dom", "es2017", "esnext"],
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
-    "moduleResolution": "node",
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "sourceMap": true,
     "declaration": true,
@@ -19,6 +19,6 @@
     }
   },
   "include": ["src/**/*.ts"],
-  "files": ["src/index.ts"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts"]
+  "files": ["src/main.ts"],
+  "exclude": ["node_modules"]
 }

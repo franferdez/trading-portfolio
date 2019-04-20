@@ -1,5 +1,8 @@
+import 'reflect-metadata';
 import { query, mutate } from '@/lib/test-utils';
-import { gql } from 'apollo-server-core';
+// import { gql } from 'apollo-server-core';
+import gql from 'graphql-tag';
+
 import { prisma } from '@/lib/prisma/prisma-client';
 
 let newUserId;
@@ -15,9 +18,7 @@ describe('Mutation: createUser', () => {
     const res = await mutate({
       mutation: gql`
         mutation($firstName: String!, $lastName: String!) {
-          user: createUser(
-            input: { firstName: $firstName, lastName: $lastName }
-          ) {
+          user: createUser(input: { firstName: $firstName, lastName: $lastName }) {
             id
             fullName
           }
@@ -41,7 +42,7 @@ describe('Query: user', () => {
     const res = await query({
       query: gql`
         query {
-          user(id: "cjq2ek9f5gdq30a61c5rxrv6p") {
+          user(id: "${newUserId}") {
             id
             fullName
           }
@@ -49,8 +50,8 @@ describe('Query: user', () => {
       `,
     });
 
-    expect(res.data!.user.id).toBe('cjq2ek9f5gdq30a61c5rxrv6p');
-    expect(res.data!.user.fullName).toEqual('James Bond');
+    expect(res.data!.user.id).toBe(newUserId);
+    expect(res.data!.user.fullName).toEqual('James Smith');
   });
 
   it('should return an error if ID is incorrect', async () => {

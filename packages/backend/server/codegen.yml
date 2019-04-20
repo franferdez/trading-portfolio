@@ -13,9 +13,6 @@ require:
 # and the value represents a set of options which are relevant for that specific file.
 generates:
   src/types/generated-types.ts:
-    config:
-    # contextType: "@graphql-modules/core#ModuleContext"
-    # contextType: ./context#MyContext
     plugins:
       - typescript
       - typescript-resolvers

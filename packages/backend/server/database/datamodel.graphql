@@ -1,18 +1,24 @@
+#type User {
+#  id: ID! @unique
+#  name: String!
+#  email: String @unique
+#  password: String!
+#  posts: [Post!]!
+#}
+#
+#type Post {
+#  id: ID! @unique
+#  title: String!
+#  content: String!
+#  summary: String!
+#  slug: String
+#  views: Int
+#  published: Boolean! @default(value: "false")
+#  author: User!
+#}
+
 type User {
   id: ID! @unique
-  name: String!
-  email: String @unique
-  password: String!
-  posts: [Post!]!
-}
-
-type Post {
-  id: ID! @unique
-  title: String!
-  content: String!
-  summary: String!
-  slug: String
-  views: Int
-  published: Boolean! @default(value: "false")
-  author: User!
+  firstName: String!
+  lastName: String!
 }

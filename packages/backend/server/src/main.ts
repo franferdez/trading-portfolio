@@ -1,13 +1,13 @@
-require("dotenv").config();
-import "reflect-metadata";
-import { ApolloServer } from "apollo-server";
-import { importSchema } from "graphql-import";
+require('dotenv').config();
+import 'reflect-metadata';
+import { ApolloServer } from 'apollo-server';
+import { importSchema } from 'graphql-import';
 // import { Prisma } from "prisma-binding";
 
-import { prisma } from "./lib/prisma/prisma-client/";
-import * as path from "path";
+import { prisma } from './lib/prisma/prisma-client/';
+import * as path from 'path';
 
-import { MainModule } from "./modules/main.module";
+import { MainModule } from "@modules/main.module";
 
 const { schema, context, resolvers } = MainModule;
 
@@ -17,7 +17,7 @@ const { schema, context, resolvers } = MainModule;
 //       endpoint: process.env.PRISMA_URL
 //     })
 
-// const typeDefs = importSchema(path.resolve("src/schema.graphql"));
+// const typeDefs = importSchema(path.resolve("src/user.schema.graphql"));
 
 // interface Ctx {
 //   req: Request;
@@ -27,7 +27,7 @@ const { schema, context, resolvers } = MainModule;
 const server = new ApolloServer({
   schema,
   introspection: true,
-  context: ctx => context({ ...ctx, prisma })
+  context: ctx => context({ ...ctx, prisma }),
   // context: req => ({
   //   ...context,
   //   ...req,
