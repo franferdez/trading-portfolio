@@ -1,5 +1,9 @@
 # source: http://localhost:4467/Postgres/dev
-# timestamp: Sat Apr 20 2019 16:03:01 GMT+0200 (Central European Summer Time)
+# timestamp: Thu May 16 2019 21:50:32 GMT+0200 (Central European Summer Time)
+
+type AggregateTransaction {
+  count: Int!
+}
 
 type AggregateUser {
   count: Int!
@@ -10,6 +14,8 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -18,11 +24,14 @@ scalar Long
 
 type Mutation {
   createUser(data: UserCreateInput!): User!
+  createTransaction(data: TransactionCreateInput!): Transaction!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteUser(where: UserWhereUniqueInput!): User
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyTransactions(data: TransactionUpdateManyMutationInput!, where: TransactionWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyTransactions(where: TransactionWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -54,8 +63,10 @@ type PageInfo {
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  transactions(where: TransactionWhereInput, orderBy: TransactionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Transaction]!
   user(where: UserWhereUniqueInput!): User
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  transactionsConnection(where: TransactionWhereInput, orderBy: TransactionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TransactionConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -66,6 +77,457 @@ type Query {
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  transaction(where: TransactionSubscriptionWhereInput): TransactionSubscriptionPayload
+}
+
+type Transaction {
+  date: DateTime
+  product: String
+  isin: String
+  market: String
+  quantity: Int
+  rate: Float
+  localValue: Float
+  value: Float
+  exchangeRate: Float
+  cost: Float
+  total: Float
+}
+
+"""A connection to a list of items."""
+type TransactionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TransactionEdge]!
+  aggregate: AggregateTransaction!
+}
+
+input TransactionCreateInput {
+  date: DateTime
+  product: String
+  isin: String
+  market: String
+  quantity: Int
+  rate: Float
+  localValue: Float
+  value: Float
+  exchangeRate: Float
+  cost: Float
+  total: Float
+}
+
+"""An edge in a connection."""
+type TransactionEdge {
+  """The item at the end of the edge."""
+  node: Transaction!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TransactionOrderByInput {
+  date_ASC
+  date_DESC
+  product_ASC
+  product_DESC
+  isin_ASC
+  isin_DESC
+  market_ASC
+  market_DESC
+  quantity_ASC
+  quantity_DESC
+  rate_ASC
+  rate_DESC
+  localValue_ASC
+  localValue_DESC
+  value_ASC
+  value_DESC
+  exchangeRate_ASC
+  exchangeRate_DESC
+  cost_ASC
+  cost_DESC
+  total_ASC
+  total_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type TransactionPreviousValues {
+  date: DateTime
+  product: String
+  isin: String
+  market: String
+  quantity: Int
+  rate: Float
+  localValue: Float
+  value: Float
+  exchangeRate: Float
+  cost: Float
+  total: Float
+}
+
+type TransactionSubscriptionPayload {
+  mutation: MutationType!
+  node: Transaction
+  updatedFields: [String!]
+  previousValues: TransactionPreviousValues
+}
+
+input TransactionSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TransactionSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TransactionSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TransactionSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TransactionWhereInput
+}
+
+input TransactionUpdateManyMutationInput {
+  date: DateTime
+  product: String
+  isin: String
+  market: String
+  quantity: Int
+  rate: Float
+  localValue: Float
+  value: Float
+  exchangeRate: Float
+  cost: Float
+  total: Float
+}
+
+input TransactionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TransactionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TransactionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TransactionWhereInput!]
+  date: DateTime
+
+  """All values that are not equal to given value."""
+  date_not: DateTime
+
+  """All values that are contained in given list."""
+  date_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  date_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  date_lt: DateTime
+
+  """All values less than or equal the given value."""
+  date_lte: DateTime
+
+  """All values greater than the given value."""
+  date_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  date_gte: DateTime
+  product: String
+
+  """All values that are not equal to given value."""
+  product_not: String
+
+  """All values that are contained in given list."""
+  product_in: [String!]
+
+  """All values that are not contained in given list."""
+  product_not_in: [String!]
+
+  """All values less than the given value."""
+  product_lt: String
+
+  """All values less than or equal the given value."""
+  product_lte: String
+
+  """All values greater than the given value."""
+  product_gt: String
+
+  """All values greater than or equal the given value."""
+  product_gte: String
+
+  """All values containing the given string."""
+  product_contains: String
+
+  """All values not containing the given string."""
+  product_not_contains: String
+
+  """All values starting with the given string."""
+  product_starts_with: String
+
+  """All values not starting with the given string."""
+  product_not_starts_with: String
+
+  """All values ending with the given string."""
+  product_ends_with: String
+
+  """All values not ending with the given string."""
+  product_not_ends_with: String
+  isin: String
+
+  """All values that are not equal to given value."""
+  isin_not: String
+
+  """All values that are contained in given list."""
+  isin_in: [String!]
+
+  """All values that are not contained in given list."""
+  isin_not_in: [String!]
+
+  """All values less than the given value."""
+  isin_lt: String
+
+  """All values less than or equal the given value."""
+  isin_lte: String
+
+  """All values greater than the given value."""
+  isin_gt: String
+
+  """All values greater than or equal the given value."""
+  isin_gte: String
+
+  """All values containing the given string."""
+  isin_contains: String
+
+  """All values not containing the given string."""
+  isin_not_contains: String
+
+  """All values starting with the given string."""
+  isin_starts_with: String
+
+  """All values not starting with the given string."""
+  isin_not_starts_with: String
+
+  """All values ending with the given string."""
+  isin_ends_with: String
+
+  """All values not ending with the given string."""
+  isin_not_ends_with: String
+  market: String
+
+  """All values that are not equal to given value."""
+  market_not: String
+
+  """All values that are contained in given list."""
+  market_in: [String!]
+
+  """All values that are not contained in given list."""
+  market_not_in: [String!]
+
+  """All values less than the given value."""
+  market_lt: String
+
+  """All values less than or equal the given value."""
+  market_lte: String
+
+  """All values greater than the given value."""
+  market_gt: String
+
+  """All values greater than or equal the given value."""
+  market_gte: String
+
+  """All values containing the given string."""
+  market_contains: String
+
+  """All values not containing the given string."""
+  market_not_contains: String
+
+  """All values starting with the given string."""
+  market_starts_with: String
+
+  """All values not starting with the given string."""
+  market_not_starts_with: String
+
+  """All values ending with the given string."""
+  market_ends_with: String
+
+  """All values not ending with the given string."""
+  market_not_ends_with: String
+  quantity: Int
+
+  """All values that are not equal to given value."""
+  quantity_not: Int
+
+  """All values that are contained in given list."""
+  quantity_in: [Int!]
+
+  """All values that are not contained in given list."""
+  quantity_not_in: [Int!]
+
+  """All values less than the given value."""
+  quantity_lt: Int
+
+  """All values less than or equal the given value."""
+  quantity_lte: Int
+
+  """All values greater than the given value."""
+  quantity_gt: Int
+
+  """All values greater than or equal the given value."""
+  quantity_gte: Int
+  rate: Float
+
+  """All values that are not equal to given value."""
+  rate_not: Float
+
+  """All values that are contained in given list."""
+  rate_in: [Float!]
+
+  """All values that are not contained in given list."""
+  rate_not_in: [Float!]
+
+  """All values less than the given value."""
+  rate_lt: Float
+
+  """All values less than or equal the given value."""
+  rate_lte: Float
+
+  """All values greater than the given value."""
+  rate_gt: Float
+
+  """All values greater than or equal the given value."""
+  rate_gte: Float
+  localValue: Float
+
+  """All values that are not equal to given value."""
+  localValue_not: Float
+
+  """All values that are contained in given list."""
+  localValue_in: [Float!]
+
+  """All values that are not contained in given list."""
+  localValue_not_in: [Float!]
+
+  """All values less than the given value."""
+  localValue_lt: Float
+
+  """All values less than or equal the given value."""
+  localValue_lte: Float
+
+  """All values greater than the given value."""
+  localValue_gt: Float
+
+  """All values greater than or equal the given value."""
+  localValue_gte: Float
+  value: Float
+
+  """All values that are not equal to given value."""
+  value_not: Float
+
+  """All values that are contained in given list."""
+  value_in: [Float!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [Float!]
+
+  """All values less than the given value."""
+  value_lt: Float
+
+  """All values less than or equal the given value."""
+  value_lte: Float
+
+  """All values greater than the given value."""
+  value_gt: Float
+
+  """All values greater than or equal the given value."""
+  value_gte: Float
+  exchangeRate: Float
+
+  """All values that are not equal to given value."""
+  exchangeRate_not: Float
+
+  """All values that are contained in given list."""
+  exchangeRate_in: [Float!]
+
+  """All values that are not contained in given list."""
+  exchangeRate_not_in: [Float!]
+
+  """All values less than the given value."""
+  exchangeRate_lt: Float
+
+  """All values less than or equal the given value."""
+  exchangeRate_lte: Float
+
+  """All values greater than the given value."""
+  exchangeRate_gt: Float
+
+  """All values greater than or equal the given value."""
+  exchangeRate_gte: Float
+  cost: Float
+
+  """All values that are not equal to given value."""
+  cost_not: Float
+
+  """All values that are contained in given list."""
+  cost_in: [Float!]
+
+  """All values that are not contained in given list."""
+  cost_not_in: [Float!]
+
+  """All values less than the given value."""
+  cost_lt: Float
+
+  """All values less than or equal the given value."""
+  cost_lte: Float
+
+  """All values greater than the given value."""
+  cost_gt: Float
+
+  """All values greater than or equal the given value."""
+  cost_gte: Float
+  total: Float
+
+  """All values that are not equal to given value."""
+  total_not: Float
+
+  """All values that are contained in given list."""
+  total_in: [Float!]
+
+  """All values that are not contained in given list."""
+  total_not_in: [Float!]
+
+  """All values less than the given value."""
+  total_lt: Float
+
+  """All values less than or equal the given value."""
+  total_lte: Float
+
+  """All values greater than the given value."""
+  total_gt: Float
+
+  """All values greater than or equal the given value."""
+  total_gte: Float
 }
 
 type User implements Node {

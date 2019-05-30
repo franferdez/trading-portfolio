@@ -14,6 +14,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
+  transaction: (where?: TransactionWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -36,6 +37,24 @@ export interface Prisma {
    * Queries
    */
 
+  transactions: (args?: {
+    where?: TransactionWhereInput;
+    orderBy?: TransactionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Transaction>;
+  transactionsConnection: (args?: {
+    where?: TransactionWhereInput;
+    orderBy?: TransactionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => TransactionConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserPromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -61,6 +80,14 @@ export interface Prisma {
    * Mutations
    */
 
+  createTransaction: (data: TransactionCreateInput) => TransactionPromise;
+  updateManyTransactions: (args: {
+    data: TransactionUpdateManyMutationInput;
+    where?: TransactionWhereInput;
+  }) => BatchPayloadPromise;
+  deleteManyTransactions: (
+    where?: TransactionWhereInput
+  ) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -86,6 +113,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  transaction: (
+    where?: TransactionSubscriptionWhereInput
+  ) => TransactionSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -99,6 +129,30 @@ export interface ClientConstructor<T> {
  * Types
  */
 
+export type TransactionOrderByInput =
+  | "date_ASC"
+  | "date_DESC"
+  | "product_ASC"
+  | "product_DESC"
+  | "isin_ASC"
+  | "isin_DESC"
+  | "market_ASC"
+  | "market_DESC"
+  | "quantity_ASC"
+  | "quantity_DESC"
+  | "rate_ASC"
+  | "rate_DESC"
+  | "localValue_ASC"
+  | "localValue_DESC"
+  | "value_ASC"
+  | "value_DESC"
+  | "exchangeRate_ASC"
+  | "exchangeRate_DESC"
+  | "cost_ASC"
+  | "cost_DESC"
+  | "total_ASC"
+  | "total_DESC";
+
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -108,6 +162,118 @@ export type UserOrderByInput =
   | "lastName_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+
+export interface TransactionWhereInput {
+  date?: DateTimeInput;
+  date_not?: DateTimeInput;
+  date_in?: DateTimeInput[] | DateTimeInput;
+  date_not_in?: DateTimeInput[] | DateTimeInput;
+  date_lt?: DateTimeInput;
+  date_lte?: DateTimeInput;
+  date_gt?: DateTimeInput;
+  date_gte?: DateTimeInput;
+  product?: String;
+  product_not?: String;
+  product_in?: String[] | String;
+  product_not_in?: String[] | String;
+  product_lt?: String;
+  product_lte?: String;
+  product_gt?: String;
+  product_gte?: String;
+  product_contains?: String;
+  product_not_contains?: String;
+  product_starts_with?: String;
+  product_not_starts_with?: String;
+  product_ends_with?: String;
+  product_not_ends_with?: String;
+  isin?: String;
+  isin_not?: String;
+  isin_in?: String[] | String;
+  isin_not_in?: String[] | String;
+  isin_lt?: String;
+  isin_lte?: String;
+  isin_gt?: String;
+  isin_gte?: String;
+  isin_contains?: String;
+  isin_not_contains?: String;
+  isin_starts_with?: String;
+  isin_not_starts_with?: String;
+  isin_ends_with?: String;
+  isin_not_ends_with?: String;
+  market?: String;
+  market_not?: String;
+  market_in?: String[] | String;
+  market_not_in?: String[] | String;
+  market_lt?: String;
+  market_lte?: String;
+  market_gt?: String;
+  market_gte?: String;
+  market_contains?: String;
+  market_not_contains?: String;
+  market_starts_with?: String;
+  market_not_starts_with?: String;
+  market_ends_with?: String;
+  market_not_ends_with?: String;
+  quantity?: Int;
+  quantity_not?: Int;
+  quantity_in?: Int[] | Int;
+  quantity_not_in?: Int[] | Int;
+  quantity_lt?: Int;
+  quantity_lte?: Int;
+  quantity_gt?: Int;
+  quantity_gte?: Int;
+  rate?: Float;
+  rate_not?: Float;
+  rate_in?: Float[] | Float;
+  rate_not_in?: Float[] | Float;
+  rate_lt?: Float;
+  rate_lte?: Float;
+  rate_gt?: Float;
+  rate_gte?: Float;
+  localValue?: Float;
+  localValue_not?: Float;
+  localValue_in?: Float[] | Float;
+  localValue_not_in?: Float[] | Float;
+  localValue_lt?: Float;
+  localValue_lte?: Float;
+  localValue_gt?: Float;
+  localValue_gte?: Float;
+  value?: Float;
+  value_not?: Float;
+  value_in?: Float[] | Float;
+  value_not_in?: Float[] | Float;
+  value_lt?: Float;
+  value_lte?: Float;
+  value_gt?: Float;
+  value_gte?: Float;
+  exchangeRate?: Float;
+  exchangeRate_not?: Float;
+  exchangeRate_in?: Float[] | Float;
+  exchangeRate_not_in?: Float[] | Float;
+  exchangeRate_lt?: Float;
+  exchangeRate_lte?: Float;
+  exchangeRate_gt?: Float;
+  exchangeRate_gte?: Float;
+  cost?: Float;
+  cost_not?: Float;
+  cost_in?: Float[] | Float;
+  cost_not_in?: Float[] | Float;
+  cost_lt?: Float;
+  cost_lte?: Float;
+  cost_gt?: Float;
+  cost_gte?: Float;
+  total?: Float;
+  total_not?: Float;
+  total_in?: Float[] | Float;
+  total_not_in?: Float[] | Float;
+  total_lt?: Float;
+  total_lte?: Float;
+  total_gt?: Float;
+  total_gte?: Float;
+  AND?: TransactionWhereInput[] | TransactionWhereInput;
+  OR?: TransactionWhereInput[] | TransactionWhereInput;
+  NOT?: TransactionWhereInput[] | TransactionWhereInput;
+}
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
@@ -161,6 +327,34 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
+export interface TransactionCreateInput {
+  date?: DateTimeInput;
+  product?: String;
+  isin?: String;
+  market?: String;
+  quantity?: Int;
+  rate?: Float;
+  localValue?: Float;
+  value?: Float;
+  exchangeRate?: Float;
+  cost?: Float;
+  total?: Float;
+}
+
+export interface TransactionUpdateManyMutationInput {
+  date?: DateTimeInput;
+  product?: String;
+  isin?: String;
+  market?: String;
+  quantity?: Int;
+  rate?: Float;
+  localValue?: Float;
+  value?: Float;
+  exchangeRate?: Float;
+  cost?: Float;
+  total?: Float;
+}
+
 export interface UserCreateInput {
   firstName: String;
   lastName: String;
@@ -176,6 +370,17 @@ export interface UserUpdateManyMutationInput {
   lastName?: String;
 }
 
+export interface TransactionSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: TransactionWhereInput;
+  AND?: TransactionSubscriptionWhereInput[] | TransactionSubscriptionWhereInput;
+  OR?: TransactionSubscriptionWhereInput[] | TransactionSubscriptionWhereInput;
+  NOT?: TransactionSubscriptionWhereInput[] | TransactionSubscriptionWhereInput;
+}
+
 export interface UserSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
@@ -189,6 +394,129 @@ export interface UserSubscriptionWhereInput {
 
 export interface NodeNode {
   id: ID_Output;
+}
+
+export interface Transaction {
+  date?: DateTimeOutput;
+  product?: String;
+  isin?: String;
+  market?: String;
+  quantity?: Int;
+  rate?: Float;
+  localValue?: Float;
+  value?: Float;
+  exchangeRate?: Float;
+  cost?: Float;
+  total?: Float;
+}
+
+export interface TransactionPromise extends Promise<Transaction>, Fragmentable {
+  date: () => Promise<DateTimeOutput>;
+  product: () => Promise<String>;
+  isin: () => Promise<String>;
+  market: () => Promise<String>;
+  quantity: () => Promise<Int>;
+  rate: () => Promise<Float>;
+  localValue: () => Promise<Float>;
+  value: () => Promise<Float>;
+  exchangeRate: () => Promise<Float>;
+  cost: () => Promise<Float>;
+  total: () => Promise<Float>;
+}
+
+export interface TransactionSubscription
+  extends Promise<AsyncIterator<Transaction>>,
+    Fragmentable {
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  product: () => Promise<AsyncIterator<String>>;
+  isin: () => Promise<AsyncIterator<String>>;
+  market: () => Promise<AsyncIterator<String>>;
+  quantity: () => Promise<AsyncIterator<Int>>;
+  rate: () => Promise<AsyncIterator<Float>>;
+  localValue: () => Promise<AsyncIterator<Float>>;
+  value: () => Promise<AsyncIterator<Float>>;
+  exchangeRate: () => Promise<AsyncIterator<Float>>;
+  cost: () => Promise<AsyncIterator<Float>>;
+  total: () => Promise<AsyncIterator<Float>>;
+}
+
+export interface TransactionConnection {
+  pageInfo: PageInfo;
+  edges: TransactionEdge[];
+}
+
+export interface TransactionConnectionPromise
+  extends Promise<TransactionConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<TransactionEdge>>() => T;
+  aggregate: <T = AggregateTransactionPromise>() => T;
+}
+
+export interface TransactionConnectionSubscription
+  extends Promise<AsyncIterator<TransactionConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<TransactionEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateTransactionSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface TransactionEdge {
+  node: Transaction;
+  cursor: String;
+}
+
+export interface TransactionEdgePromise
+  extends Promise<TransactionEdge>,
+    Fragmentable {
+  node: <T = TransactionPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface TransactionEdgeSubscription
+  extends Promise<AsyncIterator<TransactionEdge>>,
+    Fragmentable {
+  node: <T = TransactionSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateTransaction {
+  count: Int;
+}
+
+export interface AggregateTransactionPromise
+  extends Promise<AggregateTransaction>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateTransactionSubscription
+  extends Promise<AsyncIterator<AggregateTransaction>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface User {
@@ -230,29 +558,6 @@ export interface UserConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
   aggregate: <T = AggregateUserSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserEdge {
@@ -304,6 +609,77 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
+export interface TransactionSubscriptionPayload {
+  mutation: MutationType;
+  node: Transaction;
+  updatedFields: String[];
+  previousValues: TransactionPreviousValues;
+}
+
+export interface TransactionSubscriptionPayloadPromise
+  extends Promise<TransactionSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = TransactionPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = TransactionPreviousValuesPromise>() => T;
+}
+
+export interface TransactionSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<TransactionSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = TransactionSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = TransactionPreviousValuesSubscription>() => T;
+}
+
+export interface TransactionPreviousValues {
+  date?: DateTimeOutput;
+  product?: String;
+  isin?: String;
+  market?: String;
+  quantity?: Int;
+  rate?: Float;
+  localValue?: Float;
+  value?: Float;
+  exchangeRate?: Float;
+  cost?: Float;
+  total?: Float;
+}
+
+export interface TransactionPreviousValuesPromise
+  extends Promise<TransactionPreviousValues>,
+    Fragmentable {
+  date: () => Promise<DateTimeOutput>;
+  product: () => Promise<String>;
+  isin: () => Promise<String>;
+  market: () => Promise<String>;
+  quantity: () => Promise<Int>;
+  rate: () => Promise<Float>;
+  localValue: () => Promise<Float>;
+  value: () => Promise<Float>;
+  exchangeRate: () => Promise<Float>;
+  cost: () => Promise<Float>;
+  total: () => Promise<Float>;
+}
+
+export interface TransactionPreviousValuesSubscription
+  extends Promise<AsyncIterator<TransactionPreviousValues>>,
+    Fragmentable {
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  product: () => Promise<AsyncIterator<String>>;
+  isin: () => Promise<AsyncIterator<String>>;
+  market: () => Promise<AsyncIterator<String>>;
+  quantity: () => Promise<AsyncIterator<Int>>;
+  rate: () => Promise<AsyncIterator<Float>>;
+  localValue: () => Promise<AsyncIterator<Float>>;
+  value: () => Promise<AsyncIterator<Float>>;
+  exchangeRate: () => Promise<AsyncIterator<Float>>;
+  cost: () => Promise<AsyncIterator<Float>>;
+  total: () => Promise<AsyncIterator<Float>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -352,10 +728,14 @@ export interface UserPreviousValuesSubscription
 }
 
 /*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+DateTime scalar input type, allowing Date
 */
-export type ID_Input = string | number;
-export type ID_Output = string;
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -368,9 +748,20 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 export type Int = number;
 
 /*
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point). 
+*/
+export type Float = number;
+
+/*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
+
+/*
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+*/
+export type ID_Input = string | number;
+export type ID_Output = string;
 
 export type Long = string;
 
@@ -381,6 +772,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Transaction",
     embedded: false
   }
 ];
