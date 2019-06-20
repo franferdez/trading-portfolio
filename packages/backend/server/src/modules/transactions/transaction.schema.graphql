@@ -1,0 +1,13 @@
+type Transaction {
+  date: DateTime
+  product: String
+  isin: String
+  market: String
+  quantity: Int
+  rate: Float
+  localValue: Float
+  value: Float
+  exchangeRate: Float
+  cost: Float
+  total: Float
+}
