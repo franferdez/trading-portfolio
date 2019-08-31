@@ -1,0 +1,8 @@
+node_modules/
+.next/
+static/
+coverage/
+jest.setup.js
+next.config.js
+**/*.test.*
+**/models/*.ts

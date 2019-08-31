@@ -1,0 +1,16 @@
+{
+  "presets": ["next/babel"],
+  "plugins": [
+    "macros",
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "@ui-lib": "./src/components/ui/ui-library",
+          "@ui-icons": "./src/components/ui/ui-icons"
+        }
+      }
+    ]
+  ]
+}

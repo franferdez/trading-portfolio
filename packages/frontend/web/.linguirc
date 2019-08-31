@@ -1,0 +1,9 @@
+ {
+   "sourceLocale": "en",
+   "localeDir": "./locale",
+   "srcPathDirs": [
+      "./pages/",
+      "./components/"
+    ],
+   "format": "po"
+  }
