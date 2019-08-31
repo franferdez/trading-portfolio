@@ -11,3 +11,7 @@
 - `yarn deploy`
 - `yarn generate-types`
 - `yarn dev`
+
+## Database
+- `cd database`
+- `docker-compose up`

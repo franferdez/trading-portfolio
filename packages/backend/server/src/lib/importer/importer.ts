@@ -17,8 +17,8 @@ function readCsvFile(filename: string, callback: (results: object[]) => void) {
     });
 }
 
-function transformDeGiroTransaction(deGiroTransaction) {
-  return <TransactionCreateInput>{
+function transformDeGiroTransaction(deGiroTransaction): TransactionCreateInput {
+  return {
     date: new Date(deGiroTransaction['Datum']),
     product: deGiroTransaction['Product'],
     isin: deGiroTransaction['ISIN'],

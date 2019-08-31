@@ -1,4 +1,12 @@
+# import User from '../../lib/prisma/prisma.graphql'
+
+type Query {
+  transaction(id: String!): Transaction!
+  transactions: Transaction
+}
+
 type Transaction {
+  id: ID!
   date: DateTime
   product: String
   isin: String

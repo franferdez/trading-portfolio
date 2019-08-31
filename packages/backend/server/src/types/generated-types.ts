@@ -6,6 +6,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
 };
 
 export type CreateUserInput = {
@@ -21,22 +22,49 @@ export type MutationCreateUserArgs = {
   input: CreateUserInput;
 };
 
+/** An object with an ID */
+export type Node = {
+  /** The id of the object. */
+  id: Scalars['ID'];
+};
+
 export type Query = {
+  transaction: Transaction;
+  transactions?: Maybe<Transaction>;
   user: User;
+};
+
+export type QueryTransactionArgs = {
+  id: Scalars['String'];
 };
 
 export type QueryUserArgs = {
   id: Scalars['String'];
 };
 
-export type User = {
+export type Transaction = {
+  id: Scalars['ID'];
+  date?: Maybe<Scalars['DateTime']>;
+  product?: Maybe<Scalars['String']>;
+  isin?: Maybe<Scalars['String']>;
+  market?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['Int']>;
+  rate?: Maybe<Scalars['Float']>;
+  localValue?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']>;
+  exchangeRate?: Maybe<Scalars['Float']>;
+  cost?: Maybe<Scalars['Float']>;
+  total?: Maybe<Scalars['Float']>;
+};
+
+export type User = Node & {
   id: Scalars['ID'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   fullName: Scalars['String'];
 };
 
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
@@ -99,19 +127,50 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Query: Query;
   String: Scalars['String'];
-  User: User;
+  Transaction: Transaction;
   ID: Scalars['ID'];
+  DateTime: Scalars['DateTime'];
+  Int: Scalars['Int'];
+  Float: Scalars['Float'];
+  User: User;
+  Node: Node;
   Mutation: Mutation;
   CreateUserInput: CreateUserInput;
   Boolean: Scalars['Boolean'];
 };
 
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
+}
+
 export type MutationResolvers<Context = any, ParentType = ResolversTypes['Mutation']> = {
   createUser?: Resolver<ResolversTypes['User'], ParentType, Context, MutationCreateUserArgs>;
 };
 
+export type NodeResolvers<Context = any, ParentType = ResolversTypes['Node']> = {
+  __resolveType: TypeResolveFn<'User', ParentType, Context>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, Context>;
+};
+
 export type QueryResolvers<Context = any, ParentType = ResolversTypes['Query']> = {
+  transaction?: Resolver<ResolversTypes['Transaction'], ParentType, Context, QueryTransactionArgs>;
+  transactions?: Resolver<Maybe<ResolversTypes['Transaction']>, ParentType, Context>;
   user?: Resolver<ResolversTypes['User'], ParentType, Context, QueryUserArgs>;
+};
+
+export type TransactionResolvers<Context = any, ParentType = ResolversTypes['Transaction']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, Context>;
+  date?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, Context>;
+  product?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Context>;
+  isin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Context>;
+  market?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Context>;
+  quantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, Context>;
+  rate?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, Context>;
+  localValue?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, Context>;
+  value?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, Context>;
+  exchangeRate?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, Context>;
+  cost?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, Context>;
+  total?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, Context>;
 };
 
 export type UserResolvers<Context = any, ParentType = ResolversTypes['User']> = {
@@ -122,8 +181,11 @@ export type UserResolvers<Context = any, ParentType = ResolversTypes['User']> = 
 };
 
 export type Resolvers<Context = any> = {
+  DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<Context>;
+  Node?: NodeResolvers;
   Query?: QueryResolvers<Context>;
+  Transaction?: TransactionResolvers<Context>;
   User?: UserResolvers<Context>;
 };
 

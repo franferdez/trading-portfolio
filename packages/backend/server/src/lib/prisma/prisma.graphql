@@ -1,5 +1,5 @@
 # source: http://localhost:4467/Postgres/dev
-# timestamp: Thu May 16 2019 21:50:32 GMT+0200 (Central European Summer Time)
+# timestamp: Sat Aug 17 2019 17:13:57 GMT+0200 (Central European Summer Time)
 
 type AggregateTransaction {
   count: Int!
@@ -26,8 +26,11 @@ type Mutation {
   createUser(data: UserCreateInput!): User!
   createTransaction(data: TransactionCreateInput!): Transaction!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateTransaction(data: TransactionUpdateInput!, where: TransactionWhereUniqueInput!): Transaction
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteTransaction(where: TransactionWhereUniqueInput!): Transaction
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertTransaction(where: TransactionWhereUniqueInput!, create: TransactionCreateInput!, update: TransactionUpdateInput!): Transaction!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   updateManyTransactions(data: TransactionUpdateManyMutationInput!, where: TransactionWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
@@ -65,6 +68,7 @@ type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   transactions(where: TransactionWhereInput, orderBy: TransactionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Transaction]!
   user(where: UserWhereUniqueInput!): User
+  transaction(where: TransactionWhereUniqueInput!): Transaction
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   transactionsConnection(where: TransactionWhereInput, orderBy: TransactionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TransactionConnection!
 
@@ -80,7 +84,8 @@ type Subscription {
   transaction(where: TransactionSubscriptionWhereInput): TransactionSubscriptionPayload
 }
 
-type Transaction {
+type Transaction implements Node {
+  id: ID!
   date: DateTime
   product: String
   isin: String
@@ -128,6 +133,8 @@ type TransactionEdge {
 }
 
 enum TransactionOrderByInput {
+  id_ASC
+  id_DESC
   date_ASC
   date_DESC
   product_ASC
@@ -150,8 +157,6 @@ enum TransactionOrderByInput {
   cost_DESC
   total_ASC
   total_DESC
-  id_ASC
-  id_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -159,6 +164,7 @@ enum TransactionOrderByInput {
 }
 
 type TransactionPreviousValues {
+  id: ID!
   date: DateTime
   product: String
   isin: String
@@ -209,6 +215,20 @@ input TransactionSubscriptionWhereInput {
   node: TransactionWhereInput
 }
 
+input TransactionUpdateInput {
+  date: DateTime
+  product: String
+  isin: String
+  market: String
+  quantity: Int
+  rate: Float
+  localValue: Float
+  value: Float
+  exchangeRate: Float
+  cost: Float
+  total: Float
+}
+
 input TransactionUpdateManyMutationInput {
   date: DateTime
   product: String
@@ -232,6 +252,46 @@ input TransactionWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [TransactionWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
   date: DateTime
 
   """All values that are not equal to given value."""
@@ -528,6 +588,10 @@ input TransactionWhereInput {
 
   """All values greater than or equal the given value."""
   total_gte: Float
+}
+
+input TransactionWhereUniqueInput {
+  id: ID
 }
 
 type User implements Node {

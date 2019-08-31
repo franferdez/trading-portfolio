@@ -3,7 +3,10 @@
 Trading portfolio at the moment is an experimental framework to create a modular app to manage a portfolio of investments.
 
 ## How to run
-`yarn`
+- [Backend](./packages/backend/server/README.md)
+- [Frontend](./packages/frontend/app/README.md)
+
+## Biblography
 
 ### Useful architecture links
 - [Mono repo with lerna and yarn](https://medium.com/naresh-bhatia/sharing-ui-components-with-lerna-and-yarn-workspaces-be1ebca06efe)

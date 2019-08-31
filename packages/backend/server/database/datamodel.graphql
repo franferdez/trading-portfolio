@@ -24,6 +24,7 @@ type User {
 }
 
 type Transaction {
+  id: ID! @unique
   date: DateTime
   product: String
   isin: String
